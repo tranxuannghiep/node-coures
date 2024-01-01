@@ -10,11 +10,17 @@ const app = express();
 app.use(morgan("dev")); // debug code
 app.use(helmet()); // mũ bảo hiêm => không cho xem header dùng ngôn ngữ gì
 app.use(compression()); // vận chuyển data nhanh hơn
-
+app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 // init db
 require("./dbs/init.mongodb");
 // checkOverload();
 // init router
+app.use("/", require("./routers"));
 app.get("/", (req, res, next) => {
   return res.status(200).json({
     message: "Hello",
