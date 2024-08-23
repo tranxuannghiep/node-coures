@@ -1,0 +1,9 @@
+pipeline {
+    agent any {
+        stage('Clone') {
+            steps {
+                git 'https://github.com/tranxuannghiep/node-coures.git'
+            }
+        }
+    }
+}
