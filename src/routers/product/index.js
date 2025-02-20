@@ -10,5 +10,6 @@ const router = express.Router();
 router.use(authentication);
 
 router.post("/create-product", asyncHandler(productController.createProduct));
+router.get("/drafts/all", asyncHandler(productController.getAllDraftsForShop));
 
 module.exports = router;
