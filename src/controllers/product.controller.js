@@ -16,6 +16,22 @@ class ProductController {
     }).send(res);
   };
 
+  updateProduct = async (req, res, next) => {
+    console.log(`[P]::updateProduct`, req.body);
+
+    new SuccessResponse({
+      message: "Successfully create product",
+      metadata: await ProductService.updateProduct(
+        req.params.id,
+        req.body.product_type,
+        {
+          ...req.body,
+          product_shop: req.user.userId,
+        }
+      ),
+    }).send(res);
+  };
+
   publishProductByShop = async (req, res, next) => {
     console.log(`[P]::publishProductByShop`, req.body);
 

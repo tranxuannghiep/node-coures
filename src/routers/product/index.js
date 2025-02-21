@@ -18,15 +18,17 @@ router.get("/:product_id", asyncHandler(productController.findProduct));
 router.use(authentication);
 
 router.post("/create-product", asyncHandler(productController.createProduct));
-router.put(
+router.patch(
   "/publish/:id",
   asyncHandler(productController.publishProductByShop)
 );
 
-router.put(
+router.patch(
   "/unpublish/:id",
   asyncHandler(productController.unpublishProductByShop)
 );
+
+router.patch("/:id", asyncHandler(productController.updateProduct));
 
 router.get("/drafts/all", asyncHandler(productController.getAllDraftsForShop));
 router.get(
