@@ -1,6 +1,7 @@
 const { Types } = require("mongoose");
 const { product } = require("../product.model");
 const { NotFoundError } = require("../../core/error.response");
+const { selectData, unSelectData } = require("../../utils");
 
 const publishProductByShop = async ({ product_shop, product_id }) => {
   const foundProduct = await product.findOne({
@@ -52,6 +53,29 @@ const searchProductsByUser = async ({ keySearch }) => {
   return results;
 };
 
+const findAllProducts = async ({ limit, sort, page, filter, select }) => {
+  const skip = (Number(page) - 1) * limit;
+  const sortBy = sort === "ctime" ? { _id: -1 } : { _id: 1 };
+  const products = await product
+    .find(filter)
+    .sort(sortBy)
+    .skip(skip)
+    .limit(limit)
+    .select(selectData(select))
+    .lean();
+
+  return products;
+};
+
+const findProduct = async ({ product_id, unSelect }) => {
+  const result = await product
+    .findById(product_id)
+    .select(unSelectData(unSelect))
+    .lean();
+  if (!result) throw new NotFoundError("Product not found");
+  return result;
+};
+
 const queryProduct = async ({ query, limit, skip }) => {
   return await product
     .find(query)
@@ -67,4 +91,6 @@ module.exports = {
   unpublishProductByShop,
   findAllPublishForShop,
   searchProductsByUser,
+  findAllProducts,
+  findProduct,
 };

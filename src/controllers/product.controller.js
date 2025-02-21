@@ -76,6 +76,24 @@ class ProductController {
       metadata: await ProductService.searchProducts(keySearch),
     }).send(res);
   };
+
+  findAllProducts = async (req, res, next) => {
+    console.log(`[P]::findAllProducts`, req.body);
+
+    new SuccessResponse({
+      message: "Get list publish success",
+      metadata: await ProductService.findAllProducts(req.query),
+    }).send(res);
+  };
+
+  findProduct = async (req, res, next) => {
+    console.log(`[P]::findProduct`, req.body);
+    const { product_id } = req.params;
+    new SuccessResponse({
+      message: "Get list publish success",
+      metadata: await ProductService.findProduct({ product_id }),
+    }).send(res);
+  };
 }
 
 module.exports = new ProductController();
