@@ -6,6 +6,11 @@ const { asyncHandler } = require("../../helpers/asyncHandler");
 const { authentication } = require("../../auth/authUtils");
 const router = express.Router();
 
+router.get(
+  "/search/:keySearch",
+  asyncHandler(productController.getListSearchProduct)
+);
+
 // authentication
 router.use(authentication);
 
@@ -13,6 +18,11 @@ router.post("/create-product", asyncHandler(productController.createProduct));
 router.put(
   "/publish/:id",
   asyncHandler(productController.publishProductByShop)
+);
+
+router.put(
+  "/unpublish/:id",
+  asyncHandler(productController.unpublishProductByShop)
 );
 
 router.get("/drafts/all", asyncHandler(productController.getAllDraftsForShop));

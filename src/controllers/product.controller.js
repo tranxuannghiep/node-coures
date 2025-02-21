@@ -30,6 +30,20 @@ class ProductController {
     }).send(res);
   };
 
+  unpublishProductByShop = async (req, res, next) => {
+    console.log(`[P]::unpublishProductByShop`, req.body);
+
+    const { id } = req.params;
+
+    new SuccessResponse({
+      message: "Successfully unpublish product",
+      metadata: await ProductService.unpublishProductByShop({
+        product_shop: req.user.userId,
+        product_id: id,
+      }),
+    }).send(res);
+  };
+
   getAllDraftsForShop = async (req, res, next) => {
     console.log(`[P]::getAllDraftsForShop`, req.body);
 
@@ -49,6 +63,17 @@ class ProductController {
       metadata: await ProductService.findAllPublishForShop({
         product_shop: req.user.userId,
       }),
+    }).send(res);
+  };
+
+  getListSearchProduct = async (req, res, next) => {
+    console.log(`[P]::getListSearchProduct`, req.body);
+
+    const { keySearch } = req.params;
+
+    new SuccessResponse({
+      message: "Get list publish success",
+      metadata: await ProductService.searchProducts(keySearch),
     }).send(res);
   };
 }
