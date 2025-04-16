@@ -6,6 +6,14 @@ const morgan = require("morgan");
 const { checkOverload } = require("./helpers/check.connect");
 const app = express();
 
+// require("./tests/inventory.test");
+// const productTest = require("./tests/product.test");
+
+// productTest.purchaseProduct({
+//   productId: "123",
+//   quantity: 2,
+// });
+
 // init middleware
 app.use(morgan("dev")); // debug code
 app.use(helmet()); // mũ bảo hiêm => không cho xem header dùng ngôn ngữ gì

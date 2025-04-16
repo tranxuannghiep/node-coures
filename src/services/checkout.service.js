@@ -103,12 +103,11 @@ class CheckoutService {
     user_address = {},
     user_payment = {},
   }) {
-    const { checkout_order, shop_order_ids, shop_order_ids_new } =
-      await this.checkoutReview({
-        cartId,
-        userId,
-        shop_order_ids,
-      });
+    const { checkout_order, shop_order_ids_new } = await this.checkoutReview({
+      cartId,
+      userId,
+      shop_order_ids,
+    });
 
     // check lai 1 lan nua xem san pham co vuot ton kho khong
 
