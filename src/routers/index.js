@@ -9,6 +9,7 @@ const router = express.Router();
 // check permission
 // router.use(permission("0000"));
 
+router.use("/v1/api/rbac", require("./rbac"));
 router.use("/v1/api/comment", require("./comment"));
 router.use("/v1/api/checkout", require("./checkout"));
 router.use("/v1/api/cart", require("./cart"));
