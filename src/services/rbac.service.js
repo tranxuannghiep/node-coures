@@ -6,7 +6,7 @@ const roleModel = require("../models/role.model");
 
 const createResource = async ({ name, slug, description = "" }) => {
   try {
-    //1. Check name or slug exist
+    //1. Check name or slug exist    
 
     //2. new resource
     const resource = await resourceModel.create({
@@ -66,7 +66,7 @@ const roleList = async ({ limit = 30, page = 1, search = "" }) => {
   try {
     const roles = await roleModel.aggregate([
       {
-        $unwind: "$role_grants",
+        $unwind: "$role_grants", // chuyển array thành nhiều document
       },
       {
         $lookup: {
@@ -92,6 +92,7 @@ const roleList = async ({ limit = 30, page = 1, search = "" }) => {
       },
       {
         $project: {
+          _id: 0,
           role: 1,
           resource: 1,
           action: 1,
