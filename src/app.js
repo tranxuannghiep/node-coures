@@ -5,6 +5,8 @@ const { default: helmet } = require("helmet");
 const morgan = require("morgan");
 const { checkOverload } = require("./helpers/check.connect");
 const app = express();
+const { v4: uuidv4 } = require('uuid');
+const logger = require("./loggers/mylogger.log");
 
 // require("./tests/inventory.test");
 // const productTest = require("./tests/product.test");
@@ -24,6 +26,20 @@ app.use(
     extended: true,
   })
 );
+
+app.use((req, res, next) => {
+  const requestId = req.headers["x-request-id"] || uuidv4();
+  req.requestId = requestId;
+
+  logger.log(`input params::${req.method}`, [
+    req.path,
+    { requestId: req.requestId },
+    req.method === 'POST' ? req.body : req.query
+  ])
+
+  next();
+})
+
 // init db
 require("./dbs/init.mongodb");
 // checkOverload();
@@ -34,6 +50,17 @@ app.use("/", require("./routers"));
 
 app.use((error, req, res, next) => {
   const statusCode = error.status || 500;
+
+  const resMessage = `${statusCode} - Response: ${JSON.stringify(error)}`
+
+  logger.error(resMessage, [
+    req.path,
+    { requestId: req.requestId },
+    {
+      message: error.message || "Internal Server Error",
+    }
+  ])
+
   res.status(statusCode).json({
     status: "error",
     code: statusCode,

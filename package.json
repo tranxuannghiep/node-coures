@@ -23,7 +23,10 @@
     "mysql2": "^3.14.0",
     "redis": "^4.7.0",
     "slugify": "^1.6.6",
-    "util": "^0.12.5"
+    "util": "^0.12.5",
+    "uuid": "^8.3.2",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
     "compression": "^1.7.4",

@@ -1,0 +1,2 @@
+2025-09-18 16:16:11::info::/v1/api/rbac/role::ddcbfe8e-9db7-40be-b77e-eb46842893c8::input params::GET::{"role":"shop"}
+2025-09-18 16:16:11::error::/v1/api/rbac/role::ddcbfe8e-9db7-40be-b77e-eb46842893c8::401 - Response: {"status":401}::{"message":"Permission denied"}
