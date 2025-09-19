@@ -7,6 +7,7 @@ const { checkOverload } = require("./helpers/check.connect");
 const app = express();
 const { v4: uuidv4 } = require('uuid');
 const logger = require("./loggers/mylogger.log");
+const { initRedis } = require("./dbs/init.redis");
 
 // require("./tests/inventory.test");
 // const productTest = require("./tests/product.test");
@@ -43,6 +44,10 @@ app.use((req, res, next) => {
 // init db
 require("./dbs/init.mongodb");
 // checkOverload();
+
+//init redis
+initRedis()
+
 // init router
 app.use("/", require("./routers"));
 

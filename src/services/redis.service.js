@@ -5,12 +5,15 @@ const { promisify } = require("util");
 const {
   reservationInventory,
 } = require("../models/repositories/inventory.repo");
-const redisClient = redis.createClient();
-redisClient.connect();
+const { getRedis } = require("../dbs/init.redis");
+// const redisClient = redis.createClient();
+// redisClient.connect();
 
-redisClient.on("error", (err) => {
-  console.error("Redis error:", err);
-});
+// redisClient.on("error", (err) => {
+//   console.error("Redis error:", err);
+// });
+
+const { instanceConnect: redisClient } = getRedis()
 
 const acquiredLock = async (productId, quantity, cartId) => {
   const key = `lock_v2025_${productId}`;
