@@ -16,11 +16,13 @@ const newSku = async ({
             product_id: spu_id,
             sku_id: `${spu_id}.${randomProductId()}`
         }))
+
         const skus = await skuModel.create(convert_sku_list)
 
         return skus
     } catch (error) {
-
+        console.log(error);
+        
     }
 }
 

@@ -76,14 +76,6 @@ const skuSchema = new Schema(
     }
 );
 
-//create index for name, description
-skuSchema.index({ sku_name: "text", sku_description: "text" });
-
-// Document middleware: runs before .save() and .create()
-skuSchema.pre("save", function (next) {
-    this.sku_slug = slugify(this.sku_name, { lower: true });
-    next();
-});
 
 
 module.exports = model(DOCUMENT_NAME, skuSchema)
