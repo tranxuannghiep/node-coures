@@ -11,12 +11,16 @@ router.get(
   asyncHandler(productController.getListSearchProduct)
 );
 
+router.get("/sku/select_variation", asyncHandler(productController.findOneSku));
+router.get("/spu/get_sp_info", asyncHandler(productController.findOneSpu));
+
 router.get("", asyncHandler(productController.findAllProducts));
 router.get("/:product_id", asyncHandler(productController.findProduct));
 
 // authentication
 router.use(authentication);
 
+router.post("/spu/new", asyncHandler(productController.createSpu));
 router.post("/create-product", asyncHandler(productController.createProduct));
 router.patch(
   "/publish/:id",
