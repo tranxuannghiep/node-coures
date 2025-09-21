@@ -1,6 +1,8 @@
 'use strict';
 
+const { CACHE_PRODUCT } = require("../configs/constants");
 const { NotFoundError } = require("../core/error.response");
+const { getCacheIO, setCacheIOExpiration } = require("../models/repositories/cache.repo");
 const skuModel = require("../models/sku.model");
 const { randomProductId } = require("../utils");
 
@@ -22,23 +24,39 @@ const newSku = async ({
         return skus
     } catch (error) {
         console.log(error);
-        
+
     }
 }
 
 const oneSku = async ({ sku_id, product_id }) => {
 
-
-    //read cached
-    const sku = await skuModel.findOne({ sku_id, product_id }).lean()
-
-    if (sku) {
-        // set cached
-    } else {
-        throw NotFoundError("Sku not found")
+    if (sku_id < 0 || product_id < 0) {
+        return null
     }
 
-    return _.omit(sku, ['__v', 'updatedAt', 'createdAt', 'isDeleted'])
+    //read cached
+
+    const skuKeyCache = `${CACHE_PRODUCT.SKU}${sku_id}` // key cache
+
+    const skuCache = await getCacheIO({ key: skuKeyCache })
+
+    if (skuCache) {
+        return skuCache
+    } else {
+        const sku = await skuModel.findOne({ sku_id, product_id }).lean()
+
+        const skuCache = sku ? _.omit(sku, ['__v', 'updatedAt', 'createdAt', 'isDeleted']) : null
+        await setCacheIOExpiration({
+            key: skuKeyCache,
+            value: JSON.stringify(skuCache),
+            expirationInSeconds: 30
+        })
+
+        return skuCache
+    }
+
+
+
 
 }
 
