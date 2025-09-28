@@ -9,6 +9,7 @@ const { v4: uuidv4 } = require('uuid');
 const logger = require("./loggers/mylogger.log");
 const { initRedis } = require("./dbs/init.redis");
 const { initIORedis } = require("./dbs/init.ioredis");
+const { initElasticsearch } = require("./dbs/init.elasticsearch");
 
 // require("./tests/inventory.test");
 // const productTest = require("./tests/product.test");
@@ -52,6 +53,11 @@ require("./dbs/init.mongodb");
 // init IOREDIS
 initIORedis({
   IOREDIS_IS_ENABLED:true
+})
+
+// Elasticsearch
+initElasticsearch({
+  ELASTICSEARCH_IS_ENABLE:true
 })
 
 // init router
