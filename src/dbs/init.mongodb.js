@@ -5,6 +5,7 @@ const { countConnect } = require("../helpers/check.connect");
 const {
   db: { host, port, name },
 } = require("../configs/config.mongodb");
+const citiesModel = require("../models/cities.model");
 const connectString = `mongodb://${host}:${port}/${name}`;
 
 class Database {
@@ -24,6 +25,27 @@ class Database {
       .then((_) => {
         console.log("Connected Mongodb Success");
         countConnect();
+
+
+        // change stream
+
+        const citiStream = citiesModel.watch();
+        citiStream.on('change', (change) => {
+          console.log("MongoDB Change Detected:", change);
+
+          switch(change.operationType) {
+            case 'insert':
+              console.log('A new city was inserted');
+              break;
+            case 'update':
+              console.log('A city was updated');
+              break;
+            case 'delete':
+              console.log('A city was deleted');
+              break;
+
+          }
+        })
       })
       .catch((err) => console.log("Error Connect"));
   }

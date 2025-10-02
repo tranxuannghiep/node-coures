@@ -10,6 +10,7 @@ const router = express.Router();
 // router.use(permission("0000"));
 
 router.use("/v1/api/elasticsearch", require("./elasticsearch"));
+router.use("/v1/api/cities", require("./cities"));
 router.use("/v1/api/user", require("./user"));
 router.use("/v1/api/email", require("./email"));
 router.use("/v1/api/rbac", require("./rbac"));
